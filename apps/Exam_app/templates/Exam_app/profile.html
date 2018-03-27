@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Profile</title>
+	<style>
+		.header{
+			margin-left: 800px;
+		}
+
+		.source_color{
+			color: red;
+		}
+
+		.inset{
+			border: 1px solid black;
+			width: 940px;
+			padding: 10px;
+			overflow-wrap: break-word;
+		}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<p><a href="/quotes">Dashboard</a> | <a href="/logout">Log Out</a></p>
+	</div>
+	<div class="content">
+		<h4>Posts by {{user.alias}}</h4>
+		<h4>Shared quotes: {{count}}</h4>
+		<br>
+		{% if quotes%}
+			<div class="inset">
+			{% for quote in quotes %}
+				<p><span class="source_color">{{quote.source}}</span>: {{quote.quote}}</p>
+			{% endfor %}
+			</div>
+		{% endif %}
+	</div>
+</body>
+
+</html>

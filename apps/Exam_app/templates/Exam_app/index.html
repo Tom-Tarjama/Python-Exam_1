@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exam</title>
+	<style>
+		.register{
+			display: inline-block;
+			width: 350px;
+			margin-right: 20px;
+		}
+
+		.login{
+			display: inline-block;
+			position: absolute;
+				top: 63px;
+			width: 350px;
+		}
+
+		.login fieldset{
+			height: 160px;
+		}
+
+		.submit_button{
+			margin-top: 20px;
+		}
+
+		.DOB{
+			width: 161px;
+		}
+
+	</style>
+</head>
+	<body>
+		<div class="header">
+		<h4>Welcome!</h4>
+			{% if messages %}
+				{% for message in messages %}
+					<p>- {{message}}</p>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class="main_body">
+			<div class="register">
+				<fieldset>
+					<legend>Register</legend>
+						<form action = "/register" method="POST">
+							{% csrf_token %}
+							<table>
+								<tr>
+									<td>Name: </td>
+									<td><input type="text" name="name"></td>
+								</tr>
+								<tr>
+									<td>Alias: </td> 
+									<td><input type="text" name="alias"></td>
+								</tr>
+								<tr>
+									<td>Email: </td>
+									<td><input type="text" name="email"></td>
+								</tr>
+							</table>
+									<p>*Password should be at least 8 characters</p>
+							<table>
+								<tr>
+									<td>Password: </td>
+									<td><input type="password" name="password"></td>
+								</tr>
+								<tr>
+									<td>Confirm PW: </td>
+									<td><input type="password" name="confirm_password"></td>
+								</tr>
+								<tr>
+									<td>Date of Birth: </td>
+									<td><input class="DOB" type="date" name="birthday"></td>
+								</tr>
+								<tr>
+									<td><input class="submit_button" type="submit" name="submit" value="Register"></td>
+								</tr>
+							</table>
+						</form>
+				</fieldset>
+			</div>
+			<div class="login">
+				<fieldset>
+					<legend>Log In</legend>
+						<form action = "/login" method="POST">
+							{% csrf_token %}
+							<table>
+								<tr>
+									<td>Email:</td>
+									<td><input type="text" name="email"></td>
+								</tr>
+								<tr>
+									<td>Password:</td>
+									<td><input type="password" name="password"></td>
+								</tr>
+								<tr>
+									<td><input class="submit_button" type="submit" name="submit" value="Login"></td>
+								</tr>
+							</table>
+						</form>
+				</fieldset>
+			</div>
+		</div>
+	</body>
+</html>

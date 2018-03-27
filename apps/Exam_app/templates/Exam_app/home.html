@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quotes</title>
+	<style>
+
+		.header{
+			display: flex;
+		}
+
+		#logout{
+			margin-left: 800px;
+		}
+		.left_section{
+			width: 500px;
+			display: inline-block;
+
+		}
+
+		.quotes{
+			height: 687px;
+			overflow-y: scroll;
+		}
+
+		.quoted_item{
+			width: 400px;
+			border: 1px solid black;
+			margin-bottom: 20px;
+			padding: 10px;
+		}
+
+		.test{
+			width: 400px;
+			overflow-wrap: break-word;
+		}
+
+		.quoted_item input{
+			margin-left: 290px;
+		}
+
+		.right_section{
+			width: 500px;
+			display: inline-block;
+			position: absolute;
+			top: 71px;
+			margin-left: 20px;
+		}
+
+		.favorites{
+			height: 300px;
+			overflow-y: scroll;
+		}
+
+		.favorite_item{
+			width: 400px;
+			border: 1px solid black;
+			margin-bottom: 20px;
+			padding: 10px;
+		}
+
+		.favorite_item input{
+			margin-left: 248px;
+		}
+
+		.input_1{
+			width: 250px;
+		}
+
+		.input_2{
+			width: 400px;
+			height: 100px;
+		}
+
+	</style>
+</head>
+	<body>
+		<div class="header">
+			<h4>Welcome, {{user.alias}}!</h4>
+			<p id="logout"><a href="/logout">Log Out</a></p>
+		</div>
+		<div class="left_section">
+			<fieldset>
+			<legend>Quotable Quotes</legend>
+				{% if unfavorited_quotes %}
+				<div class = "quotes">
+					{% for quote in unfavorited_quotes %}
+					<div class = "quoted_item">
+						<p class="test">{{quote.source}}: {{quote.quote}}</p>
+						<br>
+						<p>posted by: <a href="/quotes/{{quote.uploader.id}}/profile">{{quote.uploader.alias}}</a></p>
+						<form action="/quotes/{{quote.id}}/add_to_favorites" method="POST">
+							{% csrf_token %}
+							<input type="submit" name="submit" value = "Add to My List">
+						</form>
+					</div>
+					{% endfor  %}
+				</div>
+				{% endif %}
+		</fieldset>
+		</div>
+		<div class="right_section">
+			<fieldset>
+				<legend>Your Favorites</legend>
+				{% if favorites %}
+				<div class = "favorites">
+					{% for favorite in favorites %}
+					<div class = "favorite_item">
+						<p class="test">{{favorite.favorited.source}}: {{favorite.favorited.quote}}</p>
+						<br>
+						<p>Posted by: <a href="/quotes/{{favorite.favorited.uploader.id}}/profile">{{favorite.favorited.uploader.alias}}</a></p>
+						<form action ="/quotes/{{favorite.id}}/remove_from_favorites" method="POST">
+							{%csrf_token %}
+							<input type="submit" name="submit" value="Remove From My List">
+						</form>
+					</div>
+					{% endfor %}
+				</div>
+				{% endif %}
+			</fieldset>
+			<br>
+			<hr>
+			<br>
+			<fieldset class= "add_quote">
+				<legend>Contribute a Quote</legend>
+				<form action = "/add_quote" method="POST">
+					{% csrf_token %}
+					{% if messages %}
+						{% for message in messages %}
+							<p>- {{message}}</p>
+						{% endfor %}
+					{% endif %}
+					<p>Quoted by: </p>
+					<p><input class = "input_1" type="text" name="source"></p>
+					<p>Message: </p>
+					<p><textarea class = "input_2" name= "quote"></textarea></p>
+					<p><input id="submit_button" type="submit" name="submit" value="Submit"></p>
+				</form>
+			</fieldset>
+		</div>
+	</body>
+</html>
